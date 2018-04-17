@@ -1,0 +1,42 @@
+<div class="row m-b-10">
+  <h4 color="primary"> Showing Details for Patient: {{patientName}}</h4>
+</div>
+
+<div class="row">
+  <div class="col col-sm-3">
+    <div class="row m-b-10">
+      <h5 class="text-gray">Update Patient Details</h5>
+    </div>
+
+    <form class="patient-detail-container" method="post" [formGroup]="options" (submit)="updatePatient()">
+      <mat-form-field [color]="options.value.color" class="m-b-10">
+        <input matInput type="number" placeholder="Body Temperature" formControlName="bodyTemperature" min="10">
+        <mat-error *ngIf="options.get('bodyTemperature')?.invalid">Temperature not valid</mat-error>
+      </mat-form-field>
+
+      <mat-form-field [color]="options.value.color" class="m-b-10">
+        <input matInput type="number" placeholder="Heart Rate" formControlName="heartRate" min="10">
+        <mat-error *ngIf="options.get('heartRate')?.invalid">Heart Rate not valid</mat-error>
+      </mat-form-field>
+
+      <mat-form-field [color]="options.value.color" class="m-b-10">
+        <input matInput type="number" placeholder="Blood Pressure" formControlName="bloodPressure" min="10">
+        <mat-error *ngIf="options.get('bloodPressure')?.invalid">Blood Pressure not valid</mat-error>
+      </mat-form-field>
+
+      <mat-form-field [color]="options.value.color" class="m-b-10">
+        <input matInput type="number" placeholder="Respiratory Rate" formControlName="respiratoryRate" min="10">
+        <mat-error *ngIf="options.get('respiratoryRate')?.invalid">Respiratory Rate not valid</mat-error>
+      </mat-form-field>
+
+      <button type="submit" [disabled]="!options.valid" mat-raised-button color="primary">Submit</button>
+
+    </form>
+  </div>
+
+  <div class="col offset-1 col-sm-6">
+
+    <app-patient-history></app-patient-history>
+  </div>
+
+</div>

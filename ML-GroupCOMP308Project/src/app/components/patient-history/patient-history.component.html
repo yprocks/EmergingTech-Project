@@ -1,0 +1,14 @@
+<h5 class="text-gray">Patient History</h5>
+
+<mat-expansion-panel *ngFor="let medication of medications">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <mat-icon mat-list-icon>person</mat-icon>
+       <label class="m-l-5 m-t-1">{{medication.name}}</label>
+    </mat-panel-title>
+    <div class="mat-description m-t-1">
+      <div> {{medication.date_start | date}} - {{medication.date_end | date}} </div>
+    </div>
+  </mat-expansion-panel-header>
+
+</mat-expansion-panel>
