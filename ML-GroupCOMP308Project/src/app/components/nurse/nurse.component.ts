@@ -9,6 +9,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 export class NurseComponent implements OnInit {
   options: FormGroup;
   links: any[];
+  notifications: number;
 
   constructor(fb: FormBuilder) {
     this.options = fb.group({
@@ -24,6 +25,11 @@ export class NurseComponent implements OnInit {
       {
         link: 'patient',
         name: 'Patients'
+      },
+      {
+        link: 'notifications',
+        name: 'Notifications',
+        notification: true
       }
     ];
   }

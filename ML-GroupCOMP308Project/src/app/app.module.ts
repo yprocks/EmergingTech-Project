@@ -17,7 +17,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DailyUpdatesService} from './services/daily-updates.service';
 import {GamesService} from './services/games.service';
-import {LoginService} from './services/login.service';
+import {AuthService} from './services/auth.service';
 import {NotificationsService} from './services/notifications.service';
 import {NurseService} from './services/nurse.service';
 import {PatientService} from './services/patient.service';
@@ -28,7 +28,8 @@ import {PatientHomeComponent} from './components/patient-home/patient-home.compo
 import {NurseHomeComponent} from './components/nurse-home/nurse-home.component';
 import {MaterialModule} from './modules/material-module/material-module.module';
 import { PatientListComponent } from './components/patient-list/patient-list.component';
-import { PatientAddComponent } from './components/patient-add/patient-add.component';
+import { LogoutComponent } from './components/logout/logout.component';
+import { AddMedicationComponent } from './components/add-medication/add-medication.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { PatientAddComponent } from './components/patient-add/patient-add.compon
     PatientHomeComponent,
     NurseHomeComponent,
     PatientListComponent,
-    PatientAddComponent
+    LogoutComponent,
+    AddMedicationComponent
   ],
   imports: [
     HttpClientModule,
@@ -63,7 +65,7 @@ import { PatientAddComponent } from './components/patient-add/patient-add.compon
     PatientService,
     NurseService,
     NotificationsService,
-    LoginService,
+    AuthService,
     GamesService,
     DailyUpdatesService,
     SymptomsService],

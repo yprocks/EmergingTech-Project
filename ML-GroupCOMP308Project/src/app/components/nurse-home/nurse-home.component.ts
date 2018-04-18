@@ -25,17 +25,17 @@ export class NurseHomeComponent implements OnInit, AfterViewInit {
         id: '1',
         name: 'Yash Patel',
         medication: 'Fever',
-        start_date: '12/4/2018',
-        end_date: '24/4/2018',
+        start_date: new Date('12/4/2018'),
+        end_date: null,
         isOnMedication: true
       },
       {
         id: '2',
         name: 'Vishvas Patel',
         medication: 'Gone Case',
-        start_date: '12/4/2018',
-        end_date: '24/4/2019',
-        isOnMedication: true
+        start_date: new Date('12/4/2018'),
+        end_date: new Date('12/4/2019'),
+        isOnMedication: false
       }
     ];
     this.displayedColumns = ['select', 'name', 'medication', 'start_date', 'end_date', 'edit'];

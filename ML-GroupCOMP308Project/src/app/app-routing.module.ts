@@ -10,20 +10,24 @@ import {PatientHistoryComponent} from './components/patient-history/patient-hist
 import {PatientHomeComponent} from './components/patient-home/patient-home.component';
 import {NurseHomeComponent} from './components/nurse-home/nurse-home.component';
 import {PatientListComponent} from './components/patient-list/patient-list.component';
-import {PatientAddComponent} from './components/patient-add/patient-add.component';
+import {LogoutComponent} from './components/logout/logout.component';
+import {NotificationsComponent} from './components/notifications/notifications.component';
+import {AddMedicationComponent} from './components/add-medication/add-medication.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'home', component: LoginComponent},
+  {path: '', redirectTo: 'login', pathMatch: 'full'},
+  {path: 'login', component: LoginComponent},
+  {path: 'logout', component: LogoutComponent},
   {
     path: 'nurse', component: NurseComponent,
     children: [
       {path: '', redirectTo: '/nurse/(n:home/)', pathMatch: 'full'},
       {path: 'home/', component: NurseHomeComponent, outlet: 'n'},
       {path: 'patient/', component: PatientListComponent, outlet: 'n'},
-      {path: 'patient/add', component: PatientAddComponent, outlet: 'n'},
+      {path: 'add-medication/:id', component: AddMedicationComponent, outlet: 'n'},
       {path: 'patient/:id', component: PatientDetailsComponent, outlet: 'n'},
       {path: 'history/:id', component: PatientHistoryComponent, outlet: 'n'},
+      {path: 'notifications/', component: NotificationsComponent, outlet: 'n'},
     ]
   },
   {

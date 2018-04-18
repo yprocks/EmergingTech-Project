@@ -2,6 +2,7 @@
 
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #fafafa;
 }
 
 a {
@@ -15,6 +16,14 @@ a {
 
 .m-b-10{
   margin-bottom: 10px;
+}
+
+.m-t-10{
+  margin-top: 10px;
+}
+
+.m-t-20{
+  margin-top: 20px;
 }
 
 .m-l-5{
@@ -40,6 +49,10 @@ a {
 
 .button-blue {
   background: #3fa3e2;
+}
+
+.font-12{
+  font-size: 12px;
 }
 
 .button {

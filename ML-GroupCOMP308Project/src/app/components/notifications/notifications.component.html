@@ -1,3 +1,13 @@
-<p>
-  notifications works!
-</p>
+<h5>Your Notifications/Alerts</h5>
+<mat-list>
+  <mat-list-item *ngFor="let message of messages">
+    <mat-icon matListIcon>notifications</mat-icon>
+    <h3 matLine> {{message.from}} </h3>
+    <p matLine>
+      <span> {{message.subject}} </span>
+      <span class="demo-2"> -- {{message.date}} </span>
+    </p>
+  </mat-list-item>
+</mat-list>
+
+<button mat-raised-button (click)="addNotification()">Add Notification Check</button>

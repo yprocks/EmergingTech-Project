@@ -9,14 +9,17 @@
   </mat-expansion-panel-header>
 
   <div class="row">
-
-    <mat-form-field class="col col-sm-6">
-      <input matInput placeholder="Enter Message">
-    </mat-form-field>
-
-    <button mat-icon-button>
-      <mat-icon aria-label="">delete</mat-icon>
-    </button>
+    <form method="post" class="col col-sm-11">
+      <mat-form-field class="motivational-message"
+        [hideRequiredMarker]="true">
+        <input matInput placeholder="A motivational message (Press Enter to add/update)" required>
+      </mat-form-field>
+    </form>
+    <div class="col col-sm-1">
+      <button mat-icon-button>
+        <mat-icon aria-label="">delete</mat-icon>
+      </button>
+    </div>
   </div>
 
 </mat-expansion-panel>
@@ -26,84 +29,84 @@
     <mat-panel-title>
       Patients on Medication
     </mat-panel-title>
-    <!--<mat-panel-description>-->
-    <!--Manage all patients that are on medication-->
-    <!--</mat-panel-description>-->
   </mat-expansion-panel-header>
 
-    <div class="patients-content">
+  <div class="patients-content">
 
-      <div class="filter">
-        <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-        </mat-form-field>
-      </div>
-
-      <mat-table #table [dataSource]="dataSource">
-
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="select">
-          <mat-header-cell *matHeaderCellDef>
-            <!--<mat-checkbox (change)="$event ? masterToggle() : null"-->
-            <!--[checked]="selection.hasValue() && isAllSelected()"-->
-            <!--[indeterminate]="selection.hasValue() && !isAllSelected()">-->
-            <!--</mat-checkbox>-->
-            Status
-          </mat-header-cell>
-          <mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()"
-                          (change)="$event ? selection.toggle(row) : null"
-                          [checked]="selection.isSelected(row)">
-            </mat-checkbox>
-          </mat-cell>
-        </ng-container>
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
-        </ng-container>
-
-        <!-- Medication Column -->
-        <ng-container matColumnDef="medication">
-          <mat-header-cell *matHeaderCellDef> Medication</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.medication}}</mat-cell>
-        </ng-container>
-
-        <!-- Start Date Column -->
-        <ng-container matColumnDef="start_date">
-          <mat-header-cell *matHeaderCellDef> Start Date</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.start_date}}</mat-cell>
-        </ng-container>
-
-        <!-- End Date Column -->
-        <ng-container matColumnDef="end_date">
-          <mat-header-cell *matHeaderCellDef> End Date</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.end_date}}</mat-cell>
-        </ng-container>
-
-        <!-- Edit Column Column -->
-        <ng-container matColumnDef="edit">
-          <mat-header-cell *matHeaderCellDef> Edit</mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            <a [routerLink]="['/nurse', { outlets: { n: ['patient', element.id] } }]">
-              <mat-icon>edit</mat-icon>
-            </a>
-          </mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;">
-                 <!--(click)="selection.toggle(row)">-->
-        </mat-row>
-      </mat-table>
-
-      <mat-paginator #pagination
-                     [pageSize]="10"
-                     [pageSizeOptions]="[5, 10, 20]"
-                     [showFirstLastButtons]="true">
-      </mat-paginator>
+    <div class="filter">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
     </div>
+
+    <mat-table #table [dataSource]="dataSource">
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef>
+          <!--<mat-checkbox (change)="$event ? masterToggle() : null"-->
+          <!--[checked]="selection.hasValue() && isAllSelected()"-->
+          <!--[indeterminate]="selection.hasValue() && !isAllSelected()">-->
+          <!--</mat-checkbox>-->
+          Status
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row) || !row.isOnMedication">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
+      </ng-container>
+
+      <!-- Medication Column -->
+      <ng-container matColumnDef="medication">
+        <mat-header-cell *matHeaderCellDef> Medication</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.medication}}</mat-cell>
+      </ng-container>
+
+      <!-- Start Date Column -->
+      <ng-container matColumnDef="start_date">
+        <mat-header-cell *matHeaderCellDef> Start Date</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.start_date | date}}</mat-cell>
+      </ng-container>
+
+      <!-- End Date Column -->
+      <ng-container matColumnDef="end_date">
+        <mat-header-cell *matHeaderCellDef> End Date</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{(element.end_date) ? (element.end_date | date) : ("")}}</mat-cell>
+      </ng-container>
+
+      <!-- Edit Column Column -->
+      <ng-container matColumnDef="edit">
+        <mat-header-cell *matHeaderCellDef> Add Regular Checkup</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-button color="primary" [disabled]="!element.isOnMedication"
+             [routerLink]="['/nurse', { outlets: { n: ['patient', element.id] } }]">
+            <mat-icon> add_circle_outline </mat-icon> Add
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+        <!--(click)="selection.toggle(row)">-->
+      </mat-row>
+    </mat-table>
+
+    <mat-paginator #pagination
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 20]"
+                   [showFirstLastButtons]="true">
+    </mat-paginator>
+  </div>
+
+  <p class="text-muted font-12">* Patient's that completed medications will be removed form list within two days. </p>
 
 </mat-expansion-panel>
 

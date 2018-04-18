@@ -7,3 +7,7 @@
 .m-t-1{
   margin-top: 2px;
 }
+
+thead{
+  font-weight: bold;
+}

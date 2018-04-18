@@ -1,14 +1,19 @@
-<div class="row m-b-10">
-  <h4 color="primary"> Showing Details for Patient: {{patientName}}</h4>
-</div>
-
 <div class="row">
-  <div class="col col-sm-3">
+  <div class="col col-sm-6">
     <div class="row m-b-10">
-      <h5 class="text-gray">Update Patient Details</h5>
+      <h4 class="text-gray">Add Medication </h4>
+    </div>
+    <div class="row m-b-10">
+      <h5 class="text-muted">For Patient: {{patientName}}</h5>
     </div>
 
-    <form class="patient-detail-container" method="post" [formGroup]="options" (ngSubmit)="updatePatient()">
+    <form class="patient-detail-container" method="post" [formGroup]="options" (ngSubmit)="addMedication()">
+
+      <mat-form-field class="m-b-10">
+        <input matInput type="text" placeholder="Medication" formControlName="medication">
+        <mat-error *ngIf="options.get('medication')?.invalid">Temperature not valid</mat-error>
+      </mat-form-field>
+
       <mat-form-field class="m-b-10">
         <input matInput type="number" placeholder="Body Temperature" formControlName="bodyTemperature" min="10">
         <mat-error *ngIf="options.get('bodyTemperature')?.invalid">Temperature not valid</mat-error>
@@ -33,10 +38,4 @@
 
     </form>
   </div>
-
-  <div class="col offset-1 col-sm-8">
-
-    <app-patient-history></app-patient-history>
-  </div>
-
 </div>

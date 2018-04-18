@@ -1,3 +1,150 @@
-<p>
-  patient-list works!
-</p>
+
+<!--Patient list view-->
+<div class="row m-b-10">
+  <div class="col col-sm-12">
+
+    <h5>Add Patient</h5>
+
+    <form class="patient-detail-container" method="post" [formGroup]="options" novalidate (ngSubmit)="addPatient()">
+      <mat-form-field>
+        <input matInput type="text" placeholder="Name" formControlName="Name">
+        <mat-error *ngIf="options.get('Name')?.invalid">Name not valid</mat-error>
+      </mat-form-field>
+
+      <mat-form-field [color]="options.value.color" class="m-l-5">
+        <input matInput type="email" placeholder="Email" formControlName="Email">
+        <mat-error *ngIf="options.get('Email')?.invalid">Email not valid</mat-error>
+      </mat-form-field>
+
+      <mat-form-field [color]="options.value.color" class="m-l-5">
+        <input matInput type="text" placeholder="Address" formControlName="Address">
+        <mat-error *ngIf="options.get('Address')?.invalid">Address not valid</mat-error>
+      </mat-form-field>
+
+      <mat-form-field [color]="options.value.color" class="m-l-5">
+        <input matInput type="text" placeholder="Phone" formControlName="Phone">
+        <mat-error *ngIf="options.get('Phone')?.invalid">Phone not valid</mat-error>
+      </mat-form-field>
+
+      <mat-form-field [color]="options.value.color" class="m-l-5">
+        <input matInput type="password" placeholder="Password" formControlName="Password">
+        <mat-error *ngIf="options.get('Password')?.invalid">Password not valid</mat-error>
+      </mat-form-field>
+
+      <mat-form-field [color]="options.value.color" class="m-l-5">
+        <input matInput type="password" placeholder="Confirm Password" formControlName="ConfirmPassword">
+        <mat-error *ngIf="options.get('ConfirmPassword')?.invalid">Confirm Password not valid</mat-error>
+      </mat-form-field>
+
+      <div>
+        <button type="submit" [disabled]="!options.valid" mat-raised-button color="primary">Add</button>
+        <span class="m-l-5 text-danger" *ngIf="serverErrorMessage">{{serverErrorMessage}}</span>
+        <span class="m-l-5 text-success" *ngIf="successMessage">{{successMessage}}</span>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+<mat-expansion-panel [expanded]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Patients of {{ nurse }}
+    </mat-panel-title>
+    <!--<mat-panel-description>-->
+    <!--Manage all patients that are on medication-->
+    <!--</mat-panel-description>-->
+  </mat-expansion-panel-header>
+
+  <div class="patients-content">
+
+    <div class="filter">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource">
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef>
+          <!--<mat-checkbox (change)="$event ? masterToggle() : null"-->
+          <!--[checked]="selection.hasValue() && isAllSelected()"-->
+          <!--[indeterminate]="selection.hasValue() && !isAllSelected()">-->
+          <!--</mat-checkbox>-->
+          Status
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef> Email</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.email}}</mat-cell>
+      </ng-container>
+
+      <!-- Phone Column -->
+      <ng-container matColumnDef="phone">
+        <mat-header-cell *matHeaderCellDef> Phone</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.phone}}</mat-cell>
+      </ng-container>
+
+      <!-- Address Column -->
+      <ng-container matColumnDef="address">
+        <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.address}}</mat-cell>
+      </ng-container>
+
+      <!-- End Date Column -->
+      <ng-container matColumnDef="date_created">
+        <mat-header-cell *matHeaderCellDef> Date Created</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.date_created | date}}</mat-cell>
+      </ng-container>
+
+      <!-- Delete Column -->
+      <ng-container matColumnDef="onMedication">
+        <mat-header-cell *matHeaderCellDef> Add Medication</mat-header-cell>
+        <mat-cell  *matCellDef="let element">
+          <button mat-button color="primary" [disabled]="element.isOnMedication"
+                  [routerLink]="['/nurse', { outlets: { n: ['add-medication', element.id] } }]">
+            <mat-icon>add_box</mat-icon>  Add
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef> Delete</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button color="warn" mat-button [disabled]="element.isOnMedication"  (click)="delete(element.id)">
+            <mat-icon>indeterminate_check_box</mat-icon> Delete
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+        <!--(click)="selection.toggle(row)">-->
+      </mat-row>
+    </mat-table>
+
+    <mat-paginator #pagination
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 20]"
+                   [showFirstLastButtons]="true">
+    </mat-paginator>
+  </div>
+
+</mat-expansion-panel>
+

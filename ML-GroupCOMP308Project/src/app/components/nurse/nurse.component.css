@@ -17,3 +17,12 @@
 .main-content{
   padding: 50px;
 }
+
+.round-notification{
+  margin-left: 5px;
+  border-radius: 10%;
+  background: #333;
+  color: #fff;
+  width: 20px;
+  text-align: center;
+}

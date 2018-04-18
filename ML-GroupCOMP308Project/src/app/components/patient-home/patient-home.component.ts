@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-patient-home',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PatientHomeComponent implements OnInit {
 
-  constructor() { }
+  motivationalMessage: any;
+  patient: string;
+
+  constructor(public snackBar: MatSnackBar) { }
 
   ngOnInit() {
+    this.patient = 'Yash Patel';
+
+    this.motivationalMessage = {
+      quote: 'Time is limited! Don\'t waste it in someone else\'s life',
+      author: 'Steve Jobs',
+      dateAdded: new Date('1/1/2017')
+    };
   }
 
+  sendAlert() {
+    this.snackBar.open('Alert Sent!', 'Dismiss', {  duration: 3000 });
+  }
 }
