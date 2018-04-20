@@ -82,3 +82,13 @@ input[readonly] {
 /*.counter {*/
   /*padding: 5px;*/
 /*}*/
+
+.mat-spinner{
+  position: fixed !important;
+  top: 40%;
+  left: 50%;
+}
+
+.mat-spinner circle {
+  stroke-width: 5% !important;
+}

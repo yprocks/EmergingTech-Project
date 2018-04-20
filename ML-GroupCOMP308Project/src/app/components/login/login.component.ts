@@ -12,7 +12,6 @@ export class LoginComponent implements OnInit {
   options: FormGroup;
   serverErrorMessage: string;
   router: Router;
-  bgColor: string;
 
   constructor(fb: FormBuilder, router: Router) {
     this.options = fb.group({
@@ -23,10 +22,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bgColor = '#5a6268';
   }
 
+
   login() {
-    this.router.navigate(['nurse']);
+    this.router.navigate(['/nurse']);
   }
 }
