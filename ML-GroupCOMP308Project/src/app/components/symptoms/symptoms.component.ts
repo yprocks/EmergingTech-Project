@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {forEach} from '@angular/router/src/utils/collection';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-symptoms',
@@ -17,7 +18,7 @@ export class SymptomsComponent implements OnInit {
 
   selectedValues: any;
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: FormBuilder, private _authService: AuthService) {
     this.totalChecboxClicked = 0;
     this.symptoms = ['Fever', 'Body Ache', 'Fever1',
       'Body Ache1', 'Fever2', 'Body Ache2', 'Fever3',

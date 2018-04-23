@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-logout',
@@ -8,7 +9,7 @@ import {Router} from '@angular/router';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(router: Router) {
+  constructor(router: Router, private _authService: AuthService) {
     router.navigate(['login']);
   }
 

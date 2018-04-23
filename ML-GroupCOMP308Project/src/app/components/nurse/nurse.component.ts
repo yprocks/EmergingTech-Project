@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-nurse',
@@ -11,7 +12,7 @@ export class NurseComponent implements OnInit {
   links: any[];
   notifications: number;
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: FormBuilder, private _authService: AuthService) {
     this.options = fb.group({
       'fixed': true,
       'top': 0,

@@ -12,24 +12,24 @@ import {NurseComponent} from './components/nurse/nurse.component';
 import {PatientHistoryComponent} from './components/patient-history/patient-history.component';
 import {DailyUpdatesComponent} from './components/daily-updates/daily-updates.component';
 import {NotificationsComponent} from './components/notifications/notifications.component';
-import {AppRoutingModule} from './/app-routing.module';
+import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {DailyUpdatesService} from './services/daily-updates.service';
-import {GamesService} from './services/games.service';
 import {AuthService} from './services/auth.service';
 import {NotificationsService} from './services/notifications.service';
 import {NurseService} from './services/nurse.service';
 import {PatientService} from './services/patient.service';
-import {RegistrationService} from './services/registration.service';
 import {SymptomsService} from './services/symptoms.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PatientHomeComponent} from './components/patient-home/patient-home.component';
 import {NurseHomeComponent} from './components/nurse-home/nurse-home.component';
 import {MaterialModule} from './modules/material-module/material-module.module';
-import { PatientListComponent } from './components/patient-list/patient-list.component';
-import { LogoutComponent } from './components/logout/logout.component';
-import { AddMedicationComponent } from './components/add-medication/add-medication.component';
+import {PatientListComponent} from './components/patient-list/patient-list.component';
+import {LogoutComponent} from './components/logout/logout.component';
+import {AddMedicationComponent} from './components/add-medication/add-medication.component';
+import {MessageService} from './services/message.service';
+import {TestModel} from './dummy/test.models';
+import { PatientAddComponent } from './components/patient-add/patient-add.component';
 
 
 @NgModule({
@@ -49,7 +49,8 @@ import { AddMedicationComponent } from './components/add-medication/add-medicati
     NurseHomeComponent,
     PatientListComponent,
     LogoutComponent,
-    AddMedicationComponent
+    AddMedicationComponent,
+    PatientAddComponent
   ],
   imports: [
     HttpClientModule,
@@ -61,14 +62,13 @@ import { AddMedicationComponent } from './components/add-medication/add-medicati
     MaterialModule
   ],
   providers: [
-    RegistrationService,
     PatientService,
     NurseService,
     NotificationsService,
     AuthService,
-    GamesService,
-    DailyUpdatesService,
-    SymptomsService],
+    MessageService,
+    SymptomsService,
+    TestModel],
   bootstrap: [AppComponent]
 })
 export class AppModule {

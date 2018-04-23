@@ -31,7 +31,7 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
 
-  <div class="patients-content">
+  <div *ngIf="patients.length != 0" class="patients-content">
 
     <div class="filter">
       <mat-form-field>
@@ -65,9 +65,9 @@
       </ng-container>
 
       <!-- Medication Column -->
-      <ng-container matColumnDef="medication">
+      <ng-container matColumnDef="medication_name">
         <mat-header-cell *matHeaderCellDef> Medication</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.medication}}</mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.medication_name}}</mat-cell>
       </ng-container>
 
       <!-- Start Date Column -->
@@ -104,9 +104,14 @@
                    [pageSizeOptions]="[5, 10, 20]"
                    [showFirstLastButtons]="true">
     </mat-paginator>
+
+    <p class="text-muted font-12">* Patient's that completed medications will be removed form list within two days. </p>
   </div>
 
-  <p class="text-muted font-12">* Patient's that completed medications will be removed form list within two days. </p>
+  <div *ngIf="patients.length == 0">
+    <h5>Currently, none of your patients are on any medication</h5>
+  </div>
+
 
 </mat-expansion-panel>
 

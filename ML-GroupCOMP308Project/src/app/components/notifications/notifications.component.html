@@ -5,7 +5,7 @@
     <h3 matLine> {{message.from}} </h3>
     <p matLine>
       <span> {{message.subject}} </span>
-      <span class="demo-2"> -- {{message.date}} </span>
+      <span class="demo-2"> -- {{message.date | date:'LLL dd, yyyy hh:mm a'}} </span>
     </p>
   </mat-list-item>
 </mat-list>
