@@ -47,15 +47,14 @@ export class PatientAddComponent implements OnInit {
   }
 
   addPatient() {
-    this.patientService.addPatient({
-      id: `${Math.random() * 1000}`,
+    this._authService.register({
       name: this.options.get('Name').value,
       address: this.options.get('Address').value,
       email: this.options.get('Email').value,
       phone: this.options.get('Phone').value,
+      password: this.options.get('Password').value,
       nurseId: this.nurseId,
-      isOnMedication: false,
-      dateCreated: new Date()
+      isNurse: false
     });
 
     this.options.reset();
