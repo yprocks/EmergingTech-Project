@@ -9,17 +9,24 @@
   </mat-expansion-panel-header>
 
   <div class="row">
-    <form method="post" class="col col-sm-11">
-      <mat-form-field class="motivational-message"
-        [hideRequiredMarker]="true">
-        <input matInput placeholder="A motivational message (Press Enter to add/update)" required>
+    <form method="post" [formGroup]="options" (ngSubmit)="updateTodaysQuote()" class="col col-sm-12">
+      <mat-form-field class="col col-sm-7 motivational-message"
+                      [hideRequiredMarker]="true">
+        <input formControlName="phrase" matInput
+               placeholder="A motivational message (Press Enter to add/update)" required>
+        <mat-error *ngIf="options.get('phrase')?.invalid">Phrase not valid</mat-error>
       </mat-form-field>
+      <mat-form-field class="col col-sm-3 motivational-message">
+        <input formControlName="author" matInput placeholder="Enter author name">
+        <mat-error *ngIf="options.get('author')?.invalid">Author not valid</mat-error>
+      </mat-form-field>
+        <button class="col col-sm-1" [disabled]="!options.valid" mat-icon-button type="submit">
+          <mat-icon aria-label="">send</mat-icon>
+        </button>
+        <button class="col col-sm-1" mat-icon-button *ngIf="quote" (click)="deleteMotivationalQuote(quote._id)">
+          <mat-icon aria-label="">delete</mat-icon>
+        </button>
     </form>
-    <div class="col col-sm-1">
-      <button mat-icon-button>
-        <mat-icon aria-label="">delete</mat-icon>
-      </button>
-    </div>
   </div>
 
 </mat-expansion-panel>
@@ -51,29 +58,29 @@
           Status
         </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()"
-                        (change)="$event ? selection.toggle(row) : null"
-                        [checked]="selection.isSelected(row) || !row.isOnMedication">
+          <mat-checkbox
+            (change)="completeMedication(row, $event)"
+            [checked]="selection.isSelected(row) || !row.patientId.isOnMedication">
           </mat-checkbox>
         </mat-cell>
       </ng-container>
 
       <!-- Name Column -->
-      <ng-container matColumnDef="name">
+      <ng-container matColumnDef="patientId.name">
         <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.patientId.name}}</mat-cell>
       </ng-container>
 
       <!-- Medication Column -->
-      <ng-container matColumnDef="medication_name">
+      <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef> Medication</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.medication_name}}</mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
       </ng-container>
 
       <!-- Start Date Column -->
-      <ng-container matColumnDef="start_date">
+      <ng-container matColumnDef="createdAt">
         <mat-header-cell *matHeaderCellDef> Start Date</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.start_date | date}}</mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.createdAt | date}}</mat-cell>
       </ng-container>
 
       <!-- End Date Column -->
@@ -86,9 +93,10 @@
       <ng-container matColumnDef="edit">
         <mat-header-cell *matHeaderCellDef> Add Regular Checkup</mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <button mat-button color="primary" [disabled]="!element.isOnMedication"
-             [routerLink]="['/nurse', { outlets: { n: ['patient', element.id] } }]">
-            <mat-icon> add_circle_outline </mat-icon> Add
+          <button mat-button color="primary" [disabled]="!element.patientId.isOnMedication"
+                  [routerLink]="['/nurse', { outlets: { n: ['patient', element.patientId._id] } }]">
+            <mat-icon> add_circle_outline</mat-icon>
+            Add
           </button>
         </mat-cell>
       </ng-container>

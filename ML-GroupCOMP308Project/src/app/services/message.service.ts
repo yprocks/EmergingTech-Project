@@ -15,34 +15,35 @@ export class MessageService {
 
   updateMotivationalMessage(message: any) {
     const body = JSON.stringify(message);
-    return this.http.post('http://localhost:3000/quote/add?token=' + this.auth.token(), body, {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+    return this.http.post('http://localhost:3000/quotes/add?token=' + this.auth.token(), body, {headers: headers})
+      .map((response) => response as any);
   }
 
   deleteMotivationalMessage(messageId: string) {
-    return this.http.get('http://localhost:3000/quote/remove/' + messageId + '?token=' + this.auth.token(), {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+    return this.http.get('http://localhost:3000/quotes/remove/' + messageId + '?token=' + this.auth.token(), {headers: headers})
+      .map((response) => response as any);
   }
 
-  getMotivationalMessage(patientId: string) {
-    return this.http.get('http://localhost:3000/quote/' + patientId + '?token=' + this.auth.token(), {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+  getMotivationalMessageForPatient(patientId: string) {
+    return this.http.get('http://localhost:3000/quotes/patient/' + patientId + '?token=' + this.auth.token(), {headers: headers})
+      .map((response) => response as any);
   }
+
+  getMotivationalMessage(nurseId: string) {
+    return this.http.get('http://localhost:3000/quotes/' + nurseId + '?token=' + this.auth.token(), {headers: headers})
+      .map((response) => response as any);
+  }
+
 
   getAlerts(nurseId: string) {
     return this.http.get('http://localhost:3000/alert/' + nurseId + '?token=' + this.auth.token(), {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+      .map((response) => response as any[]);
   }
 
-  sendAlert(patientId: string, message: any) {
+  sendAlert(message: any) {
     const body = JSON.stringify(message);
     return this.http.post('http://localhost:3000/alert/add?token=' + this.auth.token(), body, {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+      .map((response) => response as any);
   }
 
 }

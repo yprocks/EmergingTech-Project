@@ -7,14 +7,16 @@ const getAlerts = function (req, res) {
     alert.find({
         nurseId: req.params.nurseId,
         $or: [{created_on: {$gte: date}}, {hasViewed: false}]
-    }, function (err, alert) {
-        if (err) {
-            res.status(500).json({
-                message: err.message
-            });
-        }
-        res.status(200).json(alert);
-    });
+    })
+        .populate({path: 'patientId', model: patient, select: ['_id', 'name', 'email', 'phone', 'isOnMedication']})
+        .exec(function (err, alert) {
+            if (err) {
+                res.status(500).json({
+                    message: err.message
+                });
+            }
+            res.status(200).json(alert);
+        });
 };
 
 const addAlerts = function (req, res) {

@@ -2,15 +2,12 @@ import {Location} from '@angular/common';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
-import {HttpClientModule, HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClientModule, HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
-
-import {User} from '../models/user.model';
-import {TestModel} from '../dummy/test.models';
 import {AuthService} from './auth.service';
 
-const headers = new HttpHeaders({'Content-Type': 'application/json'});
+const headers = new HttpHeaders({'Content-Type': 'application/json', 'responseType': 'application/json'});
 
 @Injectable()
 export class NurseService {
@@ -19,15 +16,18 @@ export class NurseService {
   }
 
   getPatients(nurseId: string) {
-    return this.http.get('http://localhost:3000/nurse/' + nurseId + '/patients?token=' + this.auth.token(), {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+    return this.http.get('http://localhost:3000/nurse/' + nurseId + '/patients?token=' + this.auth.token(),
+      {headers: headers})
+      .map((response) => {
+        return response as any[];
+      });
   }
 
   getPatientsOnMedication(nurseId: string) {
     return this.http.get('http://localhost:3000/nurse/' + nurseId + '/patients-on-medication?token=' + this.auth.token(),
       {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+      .map((response) => {
+        return response as any[];
+      });
   }
 }

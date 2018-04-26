@@ -12,23 +12,13 @@ export class NotificationsComponent implements OnInit {
   messages: any;
 
   constructor(private _authService: AuthService, private notificationService: NotificationsService) {
-    this.notificationService.getAlerts('nurse1')
+    this.notificationService.getAlerts(this._authService.nurseId())
       .subscribe(messages => this.messages = messages);
-    // this.messages = [{
-    //   from: 'Yash Patel',
-    //   subject: 'This is alert',
-    //   date: new Date('1/1/2018')
-    // },
-    //   {
-    //     from: 'Vishvas Patel',
-    //     subject: 'This is alert',
-    //     date: new Date('1/1/2018')
-    //   }];
   }
 
   ngOnInit() {
   }
 
-  addNotification() {
+  resolve() {
   }
 }

@@ -13,60 +13,38 @@ import {NurseService} from '../../services/nurse.service';
 })
 export class PatientListComponent implements OnInit, AfterViewInit {
 
-  nurse = 'Jenni Lee';
+  nurse = this._authService.fullName();
   selection: SelectionModel<any>;
   dataSource: MatTableDataSource<any>;
   displayedColumns: string[];
   @ViewChild(MatPaginator) pagination: MatPaginator;
-  patients: any[];
+  patients = [];
 
   constructor(private _authService: AuthService, private nurseService: NurseService) {
+    this.getPatients();
+    this.displayedColumns = ['name', 'email', 'address', 'phone', 'isOnMedication', 'delete', 'history'];
+    this.selection = new SelectionModel<any>(true, []);
   }
 
   ngOnInit(): void {
-    this.nurseService.getPatients('nurse1')
-      .subscribe(patients => this.patients = patients);
 
-    // this.patients = [
-    //   {
-    //     id: '1',
-    //     name: 'Yash Patel',
-    //     email: 'yash@gmail.com',
-    //     address: '17 Craters Avenue',
-    //     phone: '4678677678',
-    //     isOnMedication: 'true',
-    //     date_created: new Date('12/4/2018')
-    //   },
-    //   {
-    //     id: '2',
-    //     name: 'Vishvas Patel',
-    //     email: 'vishvas@gmail.com',
-    //     address: '24 Marks Avenue',
-    //     phone: '6278231167',
-    //     isOnMedication: true,
-    //     date_created: new Date('12/6/2017')
-    //   },
-    //   {
-    //     id: '3',
-    //     name: 'John Doe',
-    //     email: 'john@gmail.com',
-    //     address: '4 Marks Avenue',
-    //     phone: '6289081167',
-    //     isOnMedication: false,
-    //     date_created: new Date('12/6/2017')
-    //   }
-    // ];
+  }
 
-    this.displayedColumns = ['name', 'email', 'address', 'phone', 'dateCreated', 'isOnMedication', 'delete'];
-    this.dataSource = new MatTableDataSource<any>(this.patients);
-    this.selection = new SelectionModel<any>(true, []);
+  getPatients() {
+    this.nurseService.getPatients(this._authService.nurseId())
+      .subscribe(patients => {
+        patients.forEach(obj => {
+          this.patients.push(obj);
+        });
+        this.dataSource = new MatTableDataSource<any>(this.patients);
+        this.dataSource.paginator = this.pagination;
+      });
   }
 
   delete(id: number) {
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.pagination;
   }
 
   applyFilter(filterValue: string) {

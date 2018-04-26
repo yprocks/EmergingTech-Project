@@ -24,6 +24,7 @@ const routes: Routes = [
       {path: '', redirectTo: '/nurse/(n:home/)', pathMatch: 'full'},
       {path: 'home/', component: NurseHomeComponent, outlet: 'n'},
       {path: 'patient/', component: PatientListComponent, outlet: 'n'},
+      {path: 'patient-history/:id', component: PatientHistoryComponent, outlet: 'n' },
       {path: 'add-medication/:id', component: AddMedicationComponent, outlet: 'n'},
       {path: 'patient/:id', component: PatientDetailsComponent, outlet: 'n'},
       {path: 'history/:id', component: PatientHistoryComponent, outlet: 'n'},

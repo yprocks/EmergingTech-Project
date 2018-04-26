@@ -59,13 +59,13 @@ app.use('/alert', alertRoute);
 //     next(err);
 // });
 
-app.use(function (err, req, res, next) {
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    res.status(err.status || 500);
-    res.send(err.message);
-});
+// app.use(function (err, req, res, next) {
+//     res.locals.message = err.message;
+//     res.locals.error = req.app.get('env') === 'development' ? err : {};
+//
+//     res.status(err.status || 500);
+//     res.json(err.message);
+// });
 
 app.listen(conf.port, function () {
     console.log("app started on port ", 3000);

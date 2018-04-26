@@ -10,7 +10,8 @@ const alertModel = new schema({
         },
         hasViewed: {
             type: Boolean,
-            required: false
+            required: false,
+            default: false
         },
         nurseId: {
             type: mongoose.Schema.Types.ObjectId,

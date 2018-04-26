@@ -14,7 +14,6 @@ export class NotificationsService {
 
   getAlerts(nurseId: string) {
     return this.http.get('http://localhost:3000/alert/' + nurseId + '?token=' + this.auth.token(), {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+      .map((response) => response as any);
   }
 }

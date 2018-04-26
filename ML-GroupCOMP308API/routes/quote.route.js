@@ -14,7 +14,9 @@ router.use('/', function (req, res, next) {
     }
 });
 
-router.get('/:patientId', quoteController.getTodaysQuote);
+router.get('/patient/:patientId', quoteController.getTodaysPatientQuote);
+
+router.get('/:nurseId', quoteController.getTodaysNurseQuote);
 
 router.post('/add', quoteController.updateTodaysQuote);
 

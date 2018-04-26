@@ -7,12 +7,12 @@
 
 </div>
 
-<!--<mat-expansion-panel [expanded]="true">-->
-  <!--<mat-expansion-panel-header>-->
-    <!--<mat-panel-title>-->
-      <!--Patients of {{ nurse }}-->
-    <!--</mat-panel-title>-->
-  <!--</mat-expansion-panel-header>-->
+<mat-expansion-panel [expanded]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Patients of {{ nurse }}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
 
   <div class="patients-content">
 
@@ -25,21 +25,21 @@
     <mat-table #table [dataSource]="dataSource">
 
       <!-- Checkbox Column -->
-      <ng-container matColumnDef="select">
-        <mat-header-cell *matHeaderCellDef>
-          <!--<mat-checkbox (change)="$event ? masterToggle() : null"-->
-          <!--[checked]="selection.hasValue() && isAllSelected()"-->
-          <!--[indeterminate]="selection.hasValue() && !isAllSelected()">-->
+      <!--<ng-container matColumnDef="select">-->
+        <!--<mat-header-cell *matHeaderCellDef>-->
+          <!--&lt;!&ndash;<mat-checkbox (change)="$event ? masterToggle() : null"&ndash;&gt;-->
+          <!--&lt;!&ndash;[checked]="selection.hasValue() && isAllSelected()"&ndash;&gt;-->
+          <!--&lt;!&ndash;[indeterminate]="selection.hasValue() && !isAllSelected()">&ndash;&gt;-->
+          <!--&lt;!&ndash;</mat-checkbox>&ndash;&gt;-->
+          <!--Status-->
+        <!--</mat-header-cell>-->
+        <!--<mat-cell *matCellDef="let row">-->
+          <!--<mat-checkbox (click)="$event.stopPropagation()"-->
+                        <!--(change)="$event ? selection.toggle(row) : null"-->
+                        <!--[checked]="selection.isSelected(row)">-->
           <!--</mat-checkbox>-->
-          Status
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()"
-                        (change)="$event ? selection.toggle(row) : null"
-                        [checked]="selection.isSelected(row)">
-          </mat-checkbox>
-        </mat-cell>
-      </ng-container>
+        <!--</mat-cell>-->
+      <!--</ng-container>-->
 
       <!-- Name Column -->
       <ng-container matColumnDef="name">
@@ -66,17 +66,17 @@
       </ng-container>
 
       <!-- End Date Column -->
-      <ng-container matColumnDef="dateCreated">
-        <mat-header-cell *matHeaderCellDef> Date Created</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.dateCreated | date}}</mat-cell>
-      </ng-container>
+      <!--<ng-container matColumnDef="createdAt">-->
+        <!--<mat-header-cell *matHeaderCellDef> Date Created</mat-header-cell>-->
+        <!--<mat-cell *matCellDef="let element"> {{element.createdAt | date}}</mat-cell>-->
+      <!--</ng-container>-->
 
       <!-- Delete Column -->
       <ng-container matColumnDef="isOnMedication">
         <mat-header-cell *matHeaderCellDef> Add Medication</mat-header-cell>
         <mat-cell  *matCellDef="let element">
           <button mat-button color="primary" [disabled]="element.isOnMedication"
-                  [routerLink]="['/nurse', { outlets: { n: ['add-medication', element.id] } }]">
+                  [routerLink]="['/nurse', { outlets: { n: ['add-medication', element._id] } }]">
             <mat-icon>add_box</mat-icon>  Add
           </button>
         </mat-cell>
@@ -85,8 +85,18 @@
       <ng-container matColumnDef="delete">
         <mat-header-cell *matHeaderCellDef> Delete</mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <button color="warn" mat-button [disabled]="element.isOnMedication"  (click)="delete(element.id)">
+          <button color="warn" mat-button [disabled]="element.isOnMedication"  (click)="delete(element._id)">
             <mat-icon>indeterminate_check_box</mat-icon> Delete
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="history">
+        <mat-header-cell *matHeaderCellDef> History</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button color="accent" mat-button
+                  [routerLink]="['/nurse', { outlets: { n: ['patient-history', element._id] } }]">
+          <mat-icon>remove_red_eye</mat-icon> View
           </button>
         </mat-cell>
       </ng-container>
@@ -97,12 +107,12 @@
       </mat-row>
     </mat-table>
 
-    <!--<mat-paginator #pagination-->
-                   <!--[pageSize]="10"-->
-                   <!--[pageSizeOptions]="[5, 10, 20]"-->
-                   <!--[showFirstLastButtons]="true">-->
-    <!--</mat-paginator>-->
+    <mat-paginator #pagination
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 20]"
+                   [showFirstLastButtons]="true">
+    </mat-paginator>
   </div>
 
-<!--</mat-expansion-panel>-->
+</mat-expansion-panel>
 

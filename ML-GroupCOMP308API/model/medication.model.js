@@ -2,11 +2,17 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 
 const patient = mongoose.model("patient").schema;
+const nurse = mongoose.model("nurse").schema;
 
 const medicationModel = new schema({
         patientId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'patient',
+            required: true
+        },
+        nurseId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'nurse',
             required: true
         },
         name: {

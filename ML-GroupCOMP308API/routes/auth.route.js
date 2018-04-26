@@ -12,13 +12,13 @@ router.post('/login', function (req, res, next) {
         if (err || !user) {
             console.log(err);
             return res.status(400).json({
-                message: 'No user',
+                message: 'Either username or password is wrong!',
                 user: user
             });
         }
         req.login(user, {session: false}, (err) => {
             if (err) {
-                res.send(err);
+                return res.json(err.message);
             }
             // generate a signed son web token with the contents of user object and return it in the response
             const token = authsvc.createToken({user: user.username});
@@ -26,12 +26,14 @@ router.post('/login', function (req, res, next) {
             let nurseId = {};
             let patientId = {};
 
+            fullname = info.name;
+
             if (info.nurseId) {
                 nurseId = info.nurseId;
-                return res.json({user, token, nurseId});
+                return res.json({user, token, nurseId, fullname});
             } else {
                 patientId = info.patientId;
-                return res.json({user, token, patientId});
+                return res.json({user, token, patientId, fullname});
             }
         });
     })(req, res);

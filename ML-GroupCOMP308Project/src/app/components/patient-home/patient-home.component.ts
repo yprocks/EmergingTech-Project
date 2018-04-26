@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {AuthService} from '../../services/auth.service';
 import {TestModel} from '../../dummy/test.models';
@@ -16,16 +16,17 @@ export class PatientHomeComponent implements OnInit {
   patient: string;
   options: FormGroup;
 
-  constructor(fb: FormBuilder, public snackBar: MatSnackBar, private _authService: AuthService, private messageService: MessageService) {
+  constructor(fb: FormBuilder, public snackBar: MatSnackBar,
+              private _authService: AuthService, private messageService: MessageService) {
     this.options = fb.group({
       'alert': new FormControl('', [Validators.required])
     });
   }
 
   ngOnInit() {
-    this.patient = 'Yash Patel';
+    this.patient = this._authService.fullName();
 
-    this.messageService.getMotivationalMessage()
+    this.messageService.getMotivationalMessageForPatient(this._authService.patientId())
       .subscribe(d => this.motivationalMessage = d);
     //   {
     //   quote: 'Time is limited! Don\'t waste it in someone else\'s life',
@@ -35,10 +36,16 @@ export class PatientHomeComponent implements OnInit {
   }
 
   sendAlert() {
-    this.options.reset();
-    Object.keys(this.options.controls).forEach(key => {
-      this.options.controls[key].setErrors(null);
+    this.messageService.sendAlert({
+      patientId: this._authService.patientId(),
+      message: this.options.get('alert').value
+    }).subscribe(r => {
+      this.options.reset();
+      Object.keys(this.options.controls).forEach(key => {
+        this.options.controls[key].setErrors(null);
+      });
+      this.snackBar.open('Alert Sent!', 'Dismiss', {duration: 3000});
     });
-    this.snackBar.open('Alert Sent!', 'Dismiss', {  duration: 3000 });
+
   }
 }

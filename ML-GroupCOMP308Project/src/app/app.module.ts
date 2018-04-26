@@ -29,7 +29,7 @@ import {LogoutComponent} from './components/logout/logout.component';
 import {AddMedicationComponent} from './components/add-medication/add-medication.component';
 import {MessageService} from './services/message.service';
 import {TestModel} from './dummy/test.models';
-import { PatientAddComponent } from './components/patient-add/patient-add.component';
+import {PatientAddComponent} from './components/patient-add/patient-add.component';
 
 
 @NgModule({
@@ -62,10 +62,10 @@ import { PatientAddComponent } from './components/patient-add/patient-add.compon
     MaterialModule
   ],
   providers: [
+    AuthService,
     PatientService,
     NurseService,
     NotificationsService,
-    AuthService,
     MessageService,
     SymptomsService,
     TestModel],

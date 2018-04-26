@@ -3,10 +3,8 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import 'rxjs/add/operator/catch';
-import {HttpClientModule, HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClientModule, HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
 import 'rxjs/add/operator/map';
-
-import {User} from '../models/user.model';
 
 const headers = new HttpHeaders({'Content-Type': 'application/json'});
 
@@ -19,15 +17,15 @@ export class AuthService {
   register(user: any) {
     const body = JSON.stringify(user);
     return this.http.post('http://localhost:3000/auth/register', body, {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+      .map((response) => response as any);
   }
 
-  login(user: any) {
+  login(user): Observable<any> {
     const body = JSON.stringify(user);
     return this.http.post('http://localhost:3000/auth/login', body, {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+      .map((response: Response) => {
+        return response as any;
+      });
   }
 
   logout() {
@@ -39,14 +37,30 @@ export class AuthService {
   }
 
   userName() {
-    return localStorage.getItem('email');
+    return localStorage.getItem('username');
   }
 
   fullName() {
-    return localStorage.getItem('name');
+    return localStorage.getItem('fullname');
   }
 
   token() {
     return localStorage.getItem('token');
+  }
+
+  isNurse() {
+    return JSON.parse(localStorage.getItem('isNurse')) === true;
+  }
+
+  nurseId() {
+    return localStorage.getItem('nurseId');
+  }
+
+  patientId() {
+    return localStorage.getItem('patientId');
+  }
+
+  username() {
+    return localStorage.getItem('username');
   }
 }

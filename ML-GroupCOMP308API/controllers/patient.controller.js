@@ -43,9 +43,15 @@ const getPatientHistory = function (req, res) {
                 message: err.message
             });
         }
+
+        // medications.checkups.sort(function (a, b) {
+        //     return a.date_added.getTime() - b.date_added.getTime()
+        // });
+
         res.status(200).json(medications);
     });
 };
+
 
 const addToMedication = function (req, res) {
     // make isOnMedication of patient to true
@@ -82,8 +88,14 @@ const completeMedication = function (req, res) {
     // make isOnMedication false
     // add end date to ongoing medication
 
-    medication.findOne({patientId: req.params.patientId, createdAt: req.body.createdAt}).sort({created_at: -1})
-        .exec(function (err, medicationObj) {
+    patient.findByIdAndUpdate(req.params.patientId, {isOnMedication: req.body.isOnMedication}, {new: true}, function (err, patient) {
+        if (err) {
+            res.status(500).json({
+                message: err.message
+            });
+            return;
+        }
+        medication.findById(req.body.medicationId, function (err, medicationObj) {
             if (err) {
                 res.status(500).json({
                     message: err.message
@@ -100,7 +112,7 @@ const completeMedication = function (req, res) {
 
             if (req.body.isOnMedication)
                 medicationObj.end_date = null;
-            else
+            else if (!medicationObj.end_date)
                 medicationObj.end_date = new Date();
 
             medicationObj.save(function (err) {
@@ -111,20 +123,12 @@ const completeMedication = function (req, res) {
                     return;
                 }
 
+                res.status(200).json(medicationObj);
 
-                patient.findByIdAndUpdate(req.params.patientId, {isOnMedication: req.body.isOnMedication}, {new: true}, function (err, patient) {
-                    if (err) {
-                        res.status(500).json({
-                            message: err.message
-                        });
-                        return;
-                    }
-                    res.status(200).json(medicationObj);
+            });
+        })
 
-                });
-            })
-
-        });
+    });
 
 };
 

@@ -21,15 +21,13 @@ export class PatientService {
 
   removePatient(patientId: string) {
     return this.http.get('http://localhost:3000/patient/remove/' + patientId + '?token=' + this.auth.token(), {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+      .map((response) => response as any);
   }
 
   updatePatient(patientId: string, patient: any) {
     const body = JSON.stringify(patient);
     return this.http.post('http://localhost:3000/patient/update/' + patientId + '?token=' + this.auth.token(), body, {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+      .map((response) => response as any);
   }
 
   // Handle Patient medication
@@ -37,31 +35,32 @@ export class PatientService {
     const body = JSON.stringify(patientMedication);
     return this.http.post('http://localhost:3000/patient/add-to-medication/' + patientId + '?token=' + this.auth.token(),
       body, {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+      .map((response) => response as any);
   }
 
-  completeMedication(patientId: string, medicationId: string) {
-    const body = JSON.stringify({'medicationId': medicationId});
+  completeMedication(patientId: string, medicationBody: any) {
+    const body = JSON.stringify(medicationBody);
     return this.http.post('http://localhost:3000/patient/complete-medication/' + patientId + '?token=' + this.auth.token(), body,
       {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+      .map((response) => response as any);
   }
 
   addDailyUpdate(patientId: string, patientJson: any) {
     const body = JSON.stringify(patientJson);
     return this.http.post('http://localhost:3000/patient/add-daily-update/' + patientId + '?token=' + this.auth.token(), body,
       {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+      .map((response) => response as any);
   }
 
   // Patient History
   getPatientHistory(patientId: string) {
     return this.http.get('http://localhost:3000/patient/history/' + patientId + '?token=' + this.auth.token(), {headers: headers})
-      .map((response: Response) => response.json())
-      .catch((error: Response) => Observable.throw(error.json()));
+      .map((response) => response as any[]);
+  }
+
+  getPatient(patientId: string) {
+    return this.http.get('http://localhost:3000/patient/' + patientId + '?token=' + this.auth.token(), {headers: headers})
+      .map((response) => response as any);
   }
 
 }

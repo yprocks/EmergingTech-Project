@@ -26,7 +26,7 @@ passport.use(new LocalStrategy(
                             if (err) {
                                 return done(null, false, {message: 'Internal error'});
                             }
-                            return done(null, userobj, {message: 'Login ok', nurseId : nurseObj._id});
+                            return done(null, userobj, {message: 'Login ok', nurseId : nurseObj._id, name: nurseObj.name});
                         });
                     }
                     else {
@@ -35,7 +35,7 @@ passport.use(new LocalStrategy(
                             if (err) {
                                 return done(null, false, {message: 'Internal error'});
                             }
-                            return done(null, userobj, {message: 'Login ok', patientId: patientObj._id});
+                            return done(null, userobj, {message: 'Login ok', patientId: patientObj._id, name: patientObj.name});
                         });
                     }
                 } else {

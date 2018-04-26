@@ -1,7 +1,7 @@
 const patient = require("../model/patient.model");
 const quotes = require("../model/quote.model");
 
-const getTodaysQuote = function (req, res) {
+const getTodaysPatientQuote = function (req, res) {
     let now = new Date();
     let startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
@@ -10,8 +10,17 @@ const getTodaysQuote = function (req, res) {
             res.status(500).json({
                 message: err.message
             });
+            return;
         }
-        quotes.findOne({created_on: {$gte: startOfToday}, nurseId: patient.nurseId}, function (err, quote) {
+
+        if (!patient) {
+            res.status(500).json({
+                message: err.message
+            });
+            return;
+        }
+
+        quotes.findOne({createdAt: {$gte: startOfToday}, nurseId: patient.nurseId}, function (err, quote) {
             if (err) {
                 res.status(500).json({
                     message: err.message
@@ -25,8 +34,8 @@ const getTodaysQuote = function (req, res) {
 const updateTodaysQuote = function (req, res) {
     let now = new Date();
     let startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    quotes.findOneAndUpdate({created_on: {$gte: startOfToday}, nurseId: req.body.nurseId}, req.body,
-        {upsert: true}, function (err, quote) {
+    quotes.findOneAndUpdate({createdAt: {$gte: startOfToday}, nurseId: req.body.nurseId}, req.body,
+        {upsert: true, new: true}, function (err, quote) {
             if (err) {
                 res.status(500).json({
                     message: err.message
@@ -38,17 +47,31 @@ const updateTodaysQuote = function (req, res) {
 
 const removeQuote = function (req, res) {
     quotes.findByIdAndRemove(req.params.quoteId, function (err, quote) {
-            if (err) {
-                res.status(500).json({
-                    message: err.message
-                });
-            }
-            res.status(200).json(quote);
-        });
+        if (err) {
+            res.status(500).json({
+                message: err.message
+            });
+        }
+        res.status(200).json(quote);
+    });
+};
+
+const getTodaysNurseQuote = function (req, res) {
+    let now = new Date();
+    let startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    quotes.findOne({createdAt: {$gte: startOfToday}, nurseId: req.params.nurseId}, function (err, quote) {
+        if (err) {
+            res.status(500).json({
+                message: err.message
+            });
+        }
+        res.status(200).json(quote);
+    });
 };
 
 module.exports = {
-    "getTodaysQuote": getTodaysQuote,
+    "getTodaysPatientQuote": getTodaysPatientQuote,
+    "getTodaysNurseQuote": getTodaysNurseQuote,
     "updateTodaysQuote": updateTodaysQuote,
     "removeQuote": removeQuote
 };

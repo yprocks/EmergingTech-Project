@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
+import {PatientService} from '../../services/patient.service';
 
 @Component({
   selector: 'app-patient',
@@ -13,13 +14,13 @@ export class PatientComponent implements OnInit {
   patientId: string;
 
   constructor(fb: FormBuilder, private _authService: AuthService) {
-    this.patientId = 'patient1';
 
     this.options = fb.group({
       'fixed': true,
       'top': 0,
       'bottom': 0,
     });
+
     this.links = [
       {
         link: 'home',
@@ -35,7 +36,7 @@ export class PatientComponent implements OnInit {
       },
       {
         link: 'history',
-        params: this.patientId,
+        params: this._authService.patientId(),
         name: 'History'
       }
     ];

@@ -7,7 +7,7 @@
       <label class="m-l-5 m-t-1">{{medication.name}}</label>
     </mat-panel-title>
     <div class="mat-description m-t-1">
-      <div> {{medication.date_start | date}} - {{medication.date_end | date}}</div>
+      <div> {{medication.createdAt | date}} - {{medication.end_date | date}}</div>
     </div>
   </mat-expansion-panel-header>
 
@@ -33,7 +33,7 @@
 
       <tbody>
       <tr *ngFor="let data of medication.checkups">
-        <td> {{data.date | date:'EEE, MMM dd, yyyy'}}</td>
+        <td> {{data.date_added | date:'EEE, MMM dd, yyyy'}}</td>
         <td> {{data.heartRate}} BPM</td>
         <td> {{data.bodyTemperature}} Cel</td>
         <td> {{data.respiratoryRate}} BPM</td>

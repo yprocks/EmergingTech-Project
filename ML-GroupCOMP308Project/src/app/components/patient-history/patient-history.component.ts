@@ -22,83 +22,12 @@ export class PatientHistoryComponent implements OnInit, AfterViewInit {
     this.route.params.subscribe(params => {
       this.patient_id = params.id;
     });
-
   }
 
   ngOnInit() {
 
     this.patientService.getPatientHistory(this.patient_id)
       .subscribe(medications => this.medications = medications);
-
-    // this.medications = [
-    //   {
-    //     name: 'Fever',
-    //     date_start: new Date('1/1/16'),
-    //     date_end: new Date('2/2/16'),
-    //     checkups: [
-    //       {
-    //         date: new Date('2/2/16'),
-    //         bodyTemperature: 37,
-    //         heartRate: 90,
-    //         bloodPressure: 170,
-    //         respiratoryRate: 100
-    //       },
-    //       {
-    //         date: new Date('1/2/16'),
-    //         bodyTemperature: 37,
-    //         heartRate: 90,
-    //         bloodPressure: 170,
-    //         respiratoryRate: 100
-    //       }
-    //     ]
-    //   },
-    //   {
-    //     name: 'Cold',
-    //     date_start: new Date('1/1/15'),
-    //     date_end: new Date('2/2/15'),
-    //     checkups: [
-    //       {
-    //         date: new Date('2/2/15'),
-    //         bodyTemperature: 37,
-    //         heartRate: 90,
-    //         bloodPressure: 170,
-    //         respiratoryRate: 100
-    //       },
-    //       {
-    //         date: new Date('1/2/15'),
-    //         bodyTemperature: 37,
-    //         heartRate: 90,
-    //         bloodPressure: 170,
-    //         respiratoryRate: 100
-    //       }
-    //     ]
-    //   },
-    //   {
-    //     name: 'Flu',
-    //     date_start: new Date('1/1/14'),
-    //     date_end: new Date('2/2/14'),
-    //     checkups: [
-    //       {
-    //         date: new Date('2/2/14'),
-    //         bodyTemperature: 37,
-    //         heartRate: 90,
-    //         bloodPressure: 170,
-    //         respiratoryRate: 100
-    //       },
-    //       {
-    //         date: new Date('1/2/14'),
-    //         bodyTemperature: 37,
-    //         heartRate: 90,
-    //         bloodPressure: 170,
-    //         respiratoryRate: 100
-    //       }
-    //     ]
-    //   }
-    // ];
-
-
-    // this.dataSource = new MatTableDataSource<any>(this.medications.checkups);
-
   }
 
   ngAfterViewInit(): void {

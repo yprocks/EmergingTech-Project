@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {PatientService} from '../../services/patient.service';
+import {NurseHomeComponent} from '../nurse-home/nurse-home.component';
+import {PatientListComponent} from '../patient-list/patient-list.component';
 
 @Component({
   selector: 'app-patient-add',
@@ -17,7 +19,7 @@ export class PatientAddComponent implements OnInit {
 
   constructor(fb: FormBuilder, private _authService: AuthService, private patientService: PatientService) {
 
-    this.nurseId = 'nurse1';
+    this.nurseId = this._authService.nurseId();
 
     this.options = fb.group({
       'Name': new FormControl('', [Validators.minLength(3), Validators.maxLength(20), Validators.required]),
@@ -29,8 +31,8 @@ export class PatientAddComponent implements OnInit {
         Validators.maxLength(10),
         Validators.pattern('^\\s*(?:\\+?\\d{1,3})?[- (]*\\d{3}(?:[- )]*\\d{3})?[- ]*\\d{4}(?: *[x/#]\\d+)?\\s*$'),
         Validators.required]),
-      'Password': new FormControl('', [Validators.minLength(8), Validators.required]),
-      'ConfirmPassword': new FormControl('', [Validators.minLength(8), Validators.required, this.passwordMatch]),
+      'Password': new FormControl('', [Validators.minLength(4), Validators.required]),
+      'ConfirmPassword': new FormControl('', [Validators.minLength(4), Validators.required, this.passwordMatch]),
     });
   }
 
@@ -55,13 +57,13 @@ export class PatientAddComponent implements OnInit {
       password: this.options.get('Password').value,
       nurseId: this.nurseId,
       isNurse: false
+    }).subscribe(r => {
     });
 
     this.options.reset();
     Object.keys(this.options.controls).forEach(key => {
       this.options.controls[key].setErrors(null);
     });
-
 
   }
 

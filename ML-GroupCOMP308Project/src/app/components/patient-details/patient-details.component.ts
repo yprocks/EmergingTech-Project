@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
+import {PatientService} from '../../services/patient.service';
 
 @Component({
   selector: 'app-patient-details',
@@ -18,11 +19,15 @@ export class PatientDetailsComponent implements OnInit {
   respiratoryRate: number;
   patientName: string;
 
-  constructor(private route: ActivatedRoute, private router: Router, fb: FormBuilder, private _authService: AuthService) {
+  constructor(private route: ActivatedRoute, private router: Router, fb: FormBuilder,
+              private _authService: AuthService,
+              private patientService: PatientService) {
     this.route.params.subscribe(params => {
       this.patient_id = params.id;
       });
-    this.patientName = 'Yash Patel';
+    this.patientService.getPatient(this.patient_id).subscribe(r => {
+      this.patientName = r.name;
+    });
    }
 
 
