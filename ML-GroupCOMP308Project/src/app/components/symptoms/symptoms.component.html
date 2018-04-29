@@ -36,7 +36,11 @@
 
   </form>
 
-  <h3 class="jumbotron" *ngIf="diagnoseResults">
-    As per your data, the predicted disease is : {{ diagnoseResults }}
-  </h3>
+  <div *ngIf="diagnoseResults">
+    <h3 class="jumbotron">
+      As per our data, the predicted disease is : {{ diagnoseResults }}
+    </h3>
+    <p>*This is just a prediction based on the data we received. If symptoms exceeds more than a week please consider
+      visiting a doctor.</p>
+  </div>
 </div>

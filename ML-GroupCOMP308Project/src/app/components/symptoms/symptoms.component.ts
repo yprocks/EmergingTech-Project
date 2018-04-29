@@ -40,12 +40,16 @@ export class SymptomsComponent implements OnInit {
   checkSymptoms() {
     this.symptomsService.diagnoseSymptoms(this.selectedValues).subscribe(r => {
       // console.log(r);
-      this.diagnoseResults = r;
+
+      Object.keys(r).forEach(key => {
+        this.diagnoseResults = key;
+      });
     });
 
   }
 
   checkboxClicked(event) {
+    this.diagnoseResults = null;
     if (event.source._checked) {
       this.totalChecboxClicked++;
       this.selectedValues.symptoms.push(event.source.value);
