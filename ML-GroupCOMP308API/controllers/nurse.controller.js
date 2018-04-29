@@ -15,8 +15,6 @@ const findPatients = function (req, res) {
 
 const findPatientsOnMedication = function (req, res) {
 
-    console.log("NurseID: " + req.params.nurseId);
-
     let now = new Date();
     let date = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2);
     medicationModel.find({

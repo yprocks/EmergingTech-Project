@@ -1,11 +1,9 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatSnackBar, MatTableDataSource} from '@angular/material';
 import {AuthService} from '../../services/auth.service';
 import {PatientService} from '../../services/patient.service';
 import {NurseService} from '../../services/nurse.service';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Headers} from '@angular/http';
 import {MessageService} from '../../services/message.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
@@ -23,9 +21,11 @@ export class NurseHomeComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) pagination: MatPaginator;
   quote: any;
   options: FormGroup;
+  loading: boolean;
 
   constructor(fb: FormBuilder, private _authService: AuthService, private nurseService: NurseService,
-              private patientService: PatientService, private msgService: MessageService) {
+              private patientService: PatientService, private msgService: MessageService,
+              public snackBar: MatSnackBar) {
     this.options = fb.group({
       'author': new FormControl('', [Validators.minLength(3)]),
       'phrase': new FormControl('', [Validators.minLength(10), Validators.required])
@@ -33,7 +33,7 @@ export class NurseHomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
+    this.loading = true;
     this.getPatients();
     this.getMotivationalQuote();
     this.displayedColumns = ['select', 'patientId.name', 'name', 'createdAt', 'end_date', 'edit'];
@@ -46,6 +46,7 @@ export class NurseHomeComponent implements OnInit, AfterViewInit {
         this.patients = patient;
         this.dataSource = new MatTableDataSource<any>(this.patients);
         this.dataSource.paginator = this.pagination;
+        this.loading = false;
       });
   }
 
@@ -66,7 +67,6 @@ export class NurseHomeComponent implements OnInit, AfterViewInit {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
-
   }
 
   completeMedication(row, event) {
@@ -74,6 +74,7 @@ export class NurseHomeComponent implements OnInit, AfterViewInit {
       'isOnMedication': !event.checked,
       'medicationId': row._id
     }).subscribe(r => {
+      this.snackBar.open('Medication Updated!', 'Dismiss', {duration: 3000});
       this.getPatients();
     });
   }
@@ -95,6 +96,8 @@ export class NurseHomeComponent implements OnInit, AfterViewInit {
   deleteMotivationalQuote(_id: any) {
     this.msgService.deleteMotivationalMessage(_id)
       .subscribe(r => {
+        this.quote= null;
+        this.snackBar.open('Quote Deleted!', 'Dismiss', {duration: 3000});
         this.options.reset();
         Object.keys(this.options.controls).forEach(key => {
           this.options.controls[key].setErrors(null);
@@ -109,6 +112,7 @@ export class NurseHomeComponent implements OnInit, AfterViewInit {
       author: this.options.get('author').value,
     })
       .subscribe(r => {
+        this.snackBar.open('Quote Added!', 'Dismiss', {duration: 3000});
         this.getMotivationalQuote();
       });
   }

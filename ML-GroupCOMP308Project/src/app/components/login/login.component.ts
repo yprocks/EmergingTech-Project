@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -31,10 +32,16 @@ export class LoginComponent implements OnInit {
       'username': this.options.get('uname').value,
       'password': this.options.get('password').value
     };
+    this.serverErrorMessage = null;
+
+    Object.keys(this.options.controls).forEach(key => {
+      this.options.controls[key].setErrors(null);
+    });
 
     this._authService.login(user)
       .subscribe(
         response => {
+
           localStorage.setItem('token', response.token);
           localStorage.setItem('fullname', response.fullname);
           localStorage.setItem('user', JSON.stringify(response.user));
@@ -47,7 +54,7 @@ export class LoginComponent implements OnInit {
           }
 
           console.log(response);
-          console.log(localStorage.getItem('patientId'));
+          // console.log(localStorage.getItem('patientId'));
           // console.log(this._authService.userName());
           // console.log(this._authService.userId());
 
@@ -57,7 +64,8 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/patient']);
           }
         },
-        error => console.error(error));
-    this.options.reset();
+        (error: HttpErrorResponse) => {
+          this.serverErrorMessage = error.error.message;
+        });
   }
 }

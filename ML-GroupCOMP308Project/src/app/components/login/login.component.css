@@ -17,6 +17,8 @@ mat-form-field{
 
 .login-card{
   padding: 80px;
+  width: 350px;
   margin: 0 auto;
   display: inline-block;
 }
+

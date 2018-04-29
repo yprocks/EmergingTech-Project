@@ -1,23 +1,33 @@
-<h4>Play Cool Games </h4>
-<mat-grid-list cols="2" rowHeight="2:1">
-  <mat-grid-tile>
-    <a href="" target="_blank">
-      <img src="http://via.placeholder.com/350x200">
-    </a>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <a href="" target="_blank">
-      <img src="http://via.placeholder.com/350x200">
-    </a>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <a href="" target="_blank">
-      <img src="http://via.placeholder.com/350x200">
-    </a>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <a href="" target="_blank">
-      <img src="http://via.placeholder.com/350x200">
-    </a>
-  </mat-grid-tile>
-</mat-grid-list>
+<div *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!loading">
+  <h4 class="m-b-10">Play Cool Games </h4>
+  <mat-grid-list cols="2" rowHeight="2:1">
+    <mat-grid-tile>
+      <a href="http://www.addictinggames.com" target="_blank">
+        <img src="../../../assets/images/angry_birds.jpg" width="350" height="200">
+        <h5 class="text-center m-t-10">Angry Birds</h5>
+      </a>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <a href="http://games.ca.zone.msn.com/en-ca/home" target="_blank">
+        <img src="../../../assets/images/bad_piggies.jpg" width="350" height="200">
+        <h5 class="text-center m-t-10">Bad Piggies</h5>
+      </a>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <a href="https://www.miniclip.com/games/en/" target="_blank">
+        <img src="../../../assets/images/castway_paradise.png" width="350" height="200">
+        <h5 class="text-center m-t-10">Castway Paradise</h5>
+      </a>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <a href="https://www.arkadium.com/games/" target="_blank">
+        <img src="../../../assets/images/monstors.jpg" width="350" height="200">
+        <h5 class="text-center m-t-10">Monstors Ultimate</h5>
+      </a>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

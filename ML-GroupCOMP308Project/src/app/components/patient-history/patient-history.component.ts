@@ -16,9 +16,11 @@ export class PatientHistoryComponent implements OnInit, AfterViewInit {
 
   medications: any[];
   patient_id: string;
+  loading: boolean;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private _authService: AuthService, private patientService: PatientService) {
+    this.loading = true;
     this.route.params.subscribe(params => {
       this.patient_id = params.id;
     });
@@ -27,7 +29,10 @@ export class PatientHistoryComponent implements OnInit, AfterViewInit {
   ngOnInit() {
 
     this.patientService.getPatientHistory(this.patient_id)
-      .subscribe(medications => this.medications = medications);
+      .subscribe(medications => {
+        this.medications = medications;
+        this.loading = false;
+      });
   }
 
   ngAfterViewInit(): void {

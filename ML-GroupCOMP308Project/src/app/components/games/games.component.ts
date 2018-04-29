@@ -8,9 +8,15 @@ import {AuthService} from '../../services/auth.service';
 })
 export class GamesComponent implements OnInit {
 
-  constructor(private _authService: AuthService) { }
+  loading: boolean;
+
+  constructor(private _authService: AuthService) {
+    this.loading = true;
+
+  }
 
   ngOnInit() {
+    this.loading = false;
   }
 
 }

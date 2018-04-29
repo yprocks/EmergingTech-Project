@@ -15,12 +15,19 @@ const register = function (req, res) {
 
     userlogin.register(newUser, function (err, user) {
         if (err) {
-            res.status(500).json({
+
+            if (err.code === 11000) {
+                return res.status(500).json({
+                    message: "User Already Exists",
+                    obj: null,
+                    token: null
+                });
+            }
+            return  res.status(500).json({
                 message: err.message,
                 obj: null,
                 token: null
             });
-            return;
         }
 
         if (user.isNurse) {
@@ -67,7 +74,8 @@ const register = function (req, res) {
 function removeUserLogin(userLoginId, err, res) {
 
     userlogin.findByIdAndRemove(userLoginId, function (er, obj) {
-        res.status(500).json({
+
+        return res.status(500).json({
             message: err.message,
             obj: null,
             token: null

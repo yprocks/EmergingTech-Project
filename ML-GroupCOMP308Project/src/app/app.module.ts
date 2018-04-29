@@ -10,7 +10,6 @@ import {GamesComponent} from './components/games/games.component';
 import {SymptomsComponent} from './components/symptoms/symptoms.component';
 import {NurseComponent} from './components/nurse/nurse.component';
 import {PatientHistoryComponent} from './components/patient-history/patient-history.component';
-import {DailyUpdatesComponent} from './components/daily-updates/daily-updates.component';
 import {NotificationsComponent} from './components/notifications/notifications.component';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
@@ -28,8 +27,6 @@ import {PatientListComponent} from './components/patient-list/patient-list.compo
 import {LogoutComponent} from './components/logout/logout.component';
 import {AddMedicationComponent} from './components/add-medication/add-medication.component';
 import {MessageService} from './services/message.service';
-import {TestModel} from './dummy/test.models';
-import {PatientAddComponent} from './components/patient-add/patient-add.component';
 
 
 @NgModule({
@@ -43,14 +40,12 @@ import {PatientAddComponent} from './components/patient-add/patient-add.componen
     SymptomsComponent,
     NurseComponent,
     PatientHistoryComponent,
-    DailyUpdatesComponent,
     NotificationsComponent,
     PatientHomeComponent,
     NurseHomeComponent,
     PatientListComponent,
     LogoutComponent,
-    AddMedicationComponent,
-    PatientAddComponent
+    AddMedicationComponent
   ],
   imports: [
     HttpClientModule,
@@ -67,8 +62,7 @@ import {PatientAddComponent} from './components/patient-add/patient-add.componen
     NurseService,
     NotificationsService,
     MessageService,
-    SymptomsService,
-    TestModel],
+    SymptomsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

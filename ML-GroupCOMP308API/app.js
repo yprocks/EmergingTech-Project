@@ -46,12 +46,14 @@ const patientRoute = require('./routes/patient.route');
 const nurseRoute = require('./routes/nurse.route');
 const quoteRoute = require('./routes/quote.route');
 const alertRoute = require('./routes/alert.route');
+const symptomsAIRoute = require('./routes/symptoms.ai.route');
 
 app.use('/auth', authRoutes);
 app.use('/patient', patientRoute);
 app.use('/nurse', nurseRoute);
 app.use('/quotes', quoteRoute);
 app.use('/alert', alertRoute);
+app.use('/symptoms', symptomsAIRoute);
 
 // app.use(function (req, res, next) {
 //     let err = new Error('Not Found');

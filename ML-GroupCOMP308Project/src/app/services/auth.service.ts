@@ -5,26 +5,34 @@ import {of} from 'rxjs/observable/of';
 import 'rxjs/add/operator/catch';
 import {HttpClientModule, HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/throw';
+import {Webhook} from '../commons/webhook';
 
-const headers = new HttpHeaders({'Content-Type': 'application/json'});
 
 @Injectable()
 export class AuthService {
+
+  headers = new HttpHeaders({'Content-Type': 'application/json'});
 
   constructor(private http: HttpClient, private location: Location) {
   }
 
   register(user: any) {
     const body = JSON.stringify(user);
-    return this.http.post('http://localhost:3000/auth/register', body, {headers: headers})
-      .map((response) => response as any);
+    return this.http.post(Webhook.URL + '/auth/register', body, {headers: this.headers})
+      .map((response) => response as any)
+      .catch((err) => {
+        return Observable.throw(err as HttpErrorResponse);
+      });
   }
 
   login(user): Observable<any> {
     const body = JSON.stringify(user);
-    return this.http.post('http://localhost:3000/auth/login', body, {headers: headers})
+    return this.http.post(Webhook.URL + '/auth/login', body, {headers: this.headers})
       .map((response: Response) => {
         return response as any;
+      }).catch((err) => {
+        return Observable.throw(err as HttpErrorResponse);
       });
   }
 

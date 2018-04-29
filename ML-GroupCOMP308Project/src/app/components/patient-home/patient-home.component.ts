@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {AuthService} from '../../services/auth.service';
-import {TestModel} from '../../dummy/test.models';
 import {MessageService} from '../../services/message.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
@@ -16,8 +15,11 @@ export class PatientHomeComponent implements OnInit {
   patient: string;
   options: FormGroup;
 
+  loading: boolean;
+
   constructor(fb: FormBuilder, public snackBar: MatSnackBar,
               private _authService: AuthService, private messageService: MessageService) {
+    this.loading = true;
     this.options = fb.group({
       'alert': new FormControl('', [Validators.required])
     });
@@ -27,7 +29,10 @@ export class PatientHomeComponent implements OnInit {
     this.patient = this._authService.fullName();
 
     this.messageService.getMotivationalMessageForPatient(this._authService.patientId())
-      .subscribe(d => this.motivationalMessage = d);
+      .subscribe(d => {
+        this.motivationalMessage = d;
+        this.loading = false;
+      });
     //   {
     //   quote: 'Time is limited! Don\'t waste it in someone else\'s life',
     //   author: 'Steve Jobs',

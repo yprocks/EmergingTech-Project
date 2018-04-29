@@ -1,14 +1,96 @@
-<div class="row m-b-10">
-  <h4 color="primary"> Showing Details for Patient: {{patientName}}</h4>
+<div *ngIf="loading">
+  <mat-spinner></mat-spinner>
 </div>
 
-<div class="row">
-  <div class="col col-sm-3">
-    <app-daily-updates></app-daily-updates>
+<div *ngIf="!loading">
+  <div class="row m-b-10">
+    <h4 color="primary"> Showing Details for Patient: {{patientName}}</h4>
   </div>
 
-  <div class="col offset-1 col-sm-8">
-    <app-patient-history></app-patient-history>
-  </div>
+  <div class="row">
+    <div class="col col-sm-3">
+      <div class="row m-b-10">
+        <h5 class="text-gray">Update Patient Details</h5>
+      </div>
 
+      <form class="patient-detail-container" method="post" [formGroup]="options" (ngSubmit)="updatePatient()">
+        <mat-form-field class="m-b-10">
+          <input matInput type="number" placeholder="Body Temperature" formControlName="bodyTemperature"
+                 (ngModel)="patientDailyUpdate.bodyTemperature" min="10">
+          <mat-error *ngIf="options.get('bodyTemperature')?.invalid">Temperature not valid</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="m-b-10">
+          <input matInput type="number" placeholder="Heart Rate" formControlName="heartRate" min="10">
+          <mat-error *ngIf="options.get('heartRate')?.invalid">Heart Rate not valid</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="m-b-10">
+          <input matInput type="number" placeholder="Blood Pressure" formControlName="bloodPressure" min="10">
+          <mat-error *ngIf="options.get('bloodPressure')?.invalid">Blood Pressure not valid</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="m-b-10">
+          <input matInput type="number" placeholder="Respiratory Rate" formControlName="respiratoryRate" min="10">
+          <mat-error *ngIf="options.get('respiratoryRate')?.invalid">Respiratory Rate not valid</mat-error>
+        </mat-form-field>
+
+        <button type="submit" [disabled]="!options.valid" mat-raised-button color="primary">Submit</button>
+        <span class="m-l-5 text-danger" *ngIf="serverErrorMessage">{{serverErrorMessage}}</span>
+      </form>
+
+    </div>
+
+    <div class="col offset-1 col-sm-8">
+      <h5 class="text-gray">Patient History</h5>
+
+      <mat-expansion-panel *ngFor="let medication of medications">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon mat-list-icon>person</mat-icon>
+            <label class="m-l-5 m-t-1">{{medication.name}}</label>
+          </mat-panel-title>
+          <div class="mat-description m-t-1">
+            <div> {{medication.createdAt | date}} - {{medication.end_date | date}}</div>
+          </div>
+        </mat-expansion-panel-header>
+
+        <div class="patients-content">
+
+          <!--<div class="filter">-->
+          <!--<mat-form-field>-->
+          <!--<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">-->
+          <!--</mat-form-field>-->
+          <!--</div>-->
+
+          <table class="table">
+
+            <thead>
+            <tr>
+              <td> Date</td>
+              <td> Heart Rate</td>
+              <td> Body Temperature</td>
+              <td> Respiratory Rate</td>
+              <td> Blood Pressure</td>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr *ngFor="let data of medication.checkups">
+              <td> {{data.date_added | date:'EEE, MMM dd, yyyy'}}</td>
+              <td> {{data.heartRate}} BPM</td>
+              <td> {{data.bodyTemperature}} Cel</td>
+              <td> {{data.respiratoryRate}} BPM</td>
+              <td> {{data.bloodPressure}} BPM</td>
+            </tr>
+            </tbody>
+
+          </table>
+        </div>
+
+      </mat-expansion-panel>
+
+    </div>
+
+  </div>
 </div>

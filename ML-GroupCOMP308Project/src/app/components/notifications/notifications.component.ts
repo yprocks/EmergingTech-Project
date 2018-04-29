@@ -10,13 +10,18 @@ import {NotificationsService} from '../../services/notifications.service';
 export class NotificationsComponent implements OnInit {
 
   messages: any;
+  loading: boolean;
 
   constructor(private _authService: AuthService, private notificationService: NotificationsService) {
-    this.notificationService.getAlerts(this._authService.nurseId())
-      .subscribe(messages => this.messages = messages);
+    this.loading = true;
   }
 
   ngOnInit() {
+    this.notificationService.getAlerts(this._authService.nurseId())
+      .subscribe(messages => {
+        this.messages = messages;
+        this.loading = false;
+      });
   }
 
   resolve() {

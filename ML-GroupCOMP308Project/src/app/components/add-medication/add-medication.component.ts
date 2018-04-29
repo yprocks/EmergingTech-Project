@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
@@ -19,6 +19,8 @@ export class AddMedicationComponent implements OnInit {
   // respiratoryRate: number;
   // medication: string;
   patientName: string;
+  serverErrorMessage: string;
+  loading: boolean;
 
   constructor(private route: ActivatedRoute, private router: Router, fb: FormBuilder, private _authService: AuthService,
               private patientService: PatientService) {
@@ -26,9 +28,7 @@ export class AddMedicationComponent implements OnInit {
       this.patient_id = params.id;
     });
 
-    this.patientService.getPatient(this.patient_id).subscribe(r => {
-      this.patientName = r.name;
-    });
+    this.loading = true;
 
     this.options = fb.group({
       'medication': new FormControl('', [Validators.minLength(3), Validators.required]),
@@ -37,6 +37,12 @@ export class AddMedicationComponent implements OnInit {
       'bloodPressure': new FormControl('', [Validators.min(10), Validators.required]),
       'respiratoryRate': new FormControl('', [Validators.min(10), Validators.required]),
     });
+
+    this.patientService.getPatient(this.patient_id).subscribe(r => {
+      this.patientName = r.name;
+      this.loading = false;
+    });
+
   }
 
   addMedication() {
@@ -56,7 +62,10 @@ export class AddMedicationComponent implements OnInit {
       Object.keys(this.options.controls).forEach(key => {
         this.options.controls[key].setErrors(null);
       });
+      this.serverErrorMessage = null;
       this.router.navigate(['nurse']);
+    }, error => {
+      this.serverErrorMessage = error.error.message;
     });
 
   }

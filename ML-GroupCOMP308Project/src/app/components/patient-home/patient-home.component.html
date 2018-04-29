@@ -1,3 +1,9 @@
+<div *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!loading">
+
 <div class="container" *ngIf="motivationalMessage">
   <div class="jumbotron">
     <h2>Hello, {{ patient }}!</h2>
@@ -22,4 +28,5 @@
       <mat-icon aria-label="">send</mat-icon>
     </button>
   </form>
+</div>
 </div>
